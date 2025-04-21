@@ -1,0 +1,45 @@
+@model my_mvc_app.ViewModels.NhapKhoListViewModel
+
+@{
+    ViewData["Title"] = "Nhập Kho";
+}
+
+<h2>Nhập Kho</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+<a class="btn btn-success" asp-controller="NhapKho" asp-action="NhapKho">
+    Nhập kho
+</a>
+<h3>Danh sách phiếu nhập kho</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Mã phiếu nhập</th>
+            <th>Mã sản phẩm</th>
+            <th>Số lượng nhập</th>
+            <th>Giá nhập</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.NhapKhoDetails)
+        {
+            @foreach (var detail in item.ChiTietPhieuNhapKhoList)
+            {
+                <tr>
+                    <td>@detail.SMaPhieuNhap</td>
+                    <td>@detail.SMaSanPham</td>
+                    <td>@detail.ISoLuongNhap</td>
+                    <td>@detail.FGiaNhap</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

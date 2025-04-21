@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - my_mvc_app</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Main Content -->
+        <div class="container-fluid p-0">
+            <header class="bg-white border-bottom py-2 px-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5>@ViewData["Title"]</h5>
+                    <div class="d-flex align-items-center">
+                        <!-- Search Form -->
+                        <form asp-controller="Product" asp-action="searchProduct" method="get" class="d-flex me-3">
+                            <input type="text" name="query" class="form-control me-2" placeholder="Tìm kiếm sản phẩm..." />
+                            <button type="submit" class="btn btn-outline-primary">Tìm</button>
+                        </form>
+                        <a href="#" class="btn btn-outline-secondary">Profile</a>
+                    </div>
+                </div>
+            </header>
+            <!-- Sidebar -->
+            <div class="d-flex" style="min-height: 100vh;">
+            <!-- Sidebar -->
+                <nav class="bg-dark text-white p-3" id="sidebar" style="width: 250px; min-height: 100vh;">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Sale" asp-action="Index">
+                                <i class="bi bi-box"></i> Bán Hàng
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Product" asp-action="Index">
+                                <i class="bi bi-box"></i> Sản phẩm
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="NhanVien" asp-action="Index">
+                                <i class="bi bi-people"></i> Nhân viên
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="KhachHang" asp-action="Index">
+                                <i class="bi bi-person"></i> Khách hàng
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="NhaCungCap" asp-action="Index">
+                                <i class="bi bi-truck"></i> Nhà cung cấp
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="NhapKho" asp-action="Index">
+                                <i class="bi bi-box-arrow-in-down"></i> Phiếu nhập kho
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="XuatKho" asp-action="Index">   
+                                <i class="bi bi-box-arrow-up"></i> Phiếu xuất kho
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="HoaDonBan" asp-action="Index">
+                                <i class="bi bi-receipt"></i> Hóa đơn bán
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="TaiChinh" asp-action="Index">
+                                <i class="bi bi-cash"></i> Tài chính
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Main Content -->
+                <main class="flex-grow-1 p-4">
+                    @RenderBody()
+                </main>
+            </div>
+            
+            <footer class="bg-light text-center py-3 border-top">
+                <div class="container">
+                    &copy; 2025 - my_mvc_app
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

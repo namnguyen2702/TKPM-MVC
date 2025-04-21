@@ -1,0 +1,54 @@
+@model my_mvc_app.ViewModels.XuatKhoListViewModel
+
+@{
+    ViewData["Title"] = "Xuất Kho";
+}
+
+<h2>Xuất Kho</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+<!-- Button to open the modal for stock export -->
+<a class="btn btn-success" asp-controller="XuatKho" asp-action="XuatKho">
+    Xuất kho
+</a>
+
+<h3>Danh sách phiếu xuất kho</h3>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Mã phiếu xuất</th>
+            <th>Mã khách hàng</th>
+            <th>Mã nhân viên</th>
+            <th>Ngày xuất</th>
+            <th>Sản phẩm</th>
+            <th>Số lượng xuất</th>
+            <th>Giá xuất</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.XuatKhoDetails)
+        {
+            foreach (var detail in item.ChiTietPhieuXuatKhoList)
+            {
+                <tr>
+                    <td>@item.PhieuXuatKho.SMaPhieuXuat</td>
+                    <td>@item.PhieuXuatKho.SMaKhachHang</td>
+                    <td>@item.PhieuXuatKho.SMaNhanVien</td>
+                    <td>@item.PhieuXuatKho.DNgayXuat.ToString("dd/MM/yyyy")</td>
+                    <td>@detail.SMaSanPham</td>
+                    <td>@detail.ISoLuongXuat</td>
+                    <td>@detail.FGiaXuat</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

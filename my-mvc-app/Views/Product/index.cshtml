@@ -1,0 +1,172 @@
+@model my_mvc_app.ViewModels.ProductListViewModel
+
+@{
+    ViewData["Title"] = "Product List";
+}
+
+<div class="d-flex justify-content-between mx-4">
+    <button type="button" class="btn btn-primary ms-auto" data-bs-toggle="modal" data-bs-target="#addProductModal">
+        Add Product
+    </button>
+</div>
+<h1 class="d-inline-block">Product List</h1>
+<table class="table table-bordered mt-4">
+    <thead>
+        <tr>
+            <th>Mã sản phẩm</th>
+            <th>Tên sản phẩm</th>
+            <th>Đơn vị tính</th>
+            <th>Giá</th>
+            <th>Hạn sử dụng</th>
+            <th>Số lượng tồn</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.Products)
+        {
+            <tr>
+                <td>@product.SMaSanPham</td>
+                <td>@product.STenSanPham</td>
+                <td>@product.SDonVi</td>
+                <td>@product.FGia</td>
+                <td>@product.DHanSuDung?.ToString("yyyy-MM-dd")</td>
+                <td>@product.ISoLuongTon</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@product.SMaSanPham" class="btn btn-warning btn-sm">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@product.SMaSanPham" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Modal Nhập Kho -->
+<div class="modal fade" id="nhapKhoModal" tabindex="-1" role="dialog" aria-labelledby="nhapKhoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="nhapKhoModalLabel">Nhập Kho</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-action="NhapKho">
+                    <div class="form-group">
+                        <label for="productId">Mã sản phẩm</label>
+                        <input type="text" class="form-control" id="productId" name="productId" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Số lượng nhập</label>
+                        <input type="number" class="form-control" id="quantity" name="quantity" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Giá nhập</label>
+                        <input type="number" step="0.01" class="form-control" id="price" name="price" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="supplierId">Mã nhà cung cấp</label>
+                        <input type="text" class="form-control" id="supplierId" name="supplierId" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Nhập Kho</button>
+                    <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Xuất Kho -->
+<div class="modal fade" id="xuatKhoModal" tabindex="-1" role="dialog" aria-labelledby="xuatKhoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="xuatKhoModalLabel">Xuất Kho</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-action="XuatKho">
+                <div class="form-group">
+                    <label for="productId">Mã sản phẩm</label>
+                    <input type="text" class="form-control" id="productId" name="productId" required />
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Số lượng xuất</label>
+                    <input type="number" class="form-control" id="quantity" name="quantity" required />
+                </div>
+                <div class="form-group">
+                    <label for="price">Giá xuất</label>
+                    <input type="number" step="0.01" class="form-control" id="price" name="price" required />
+                </div>
+                <div class="form-group">
+                    <label for="customerId">Mã khách hàng</label>
+                    <input type="text" class="form-control" id="customerId" name="customerId" required />
+                </div>
+                <div class="form-group">
+                    <label for="employeeId">Mã nhân viên</label>
+                    <input type="text" class="form-control" id="employeeId" name="employeeId" required />
+                </div>
+                <button type="submit" class="btn btn-primary">Xuất Kho</button>
+                <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Add Product -->
+<div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addProductModalLabel">Add Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-action="Create">
+                    <div class="form-group">
+                        <label for="productCode">Mã sản phẩm</label>
+                        <input type="text" class="form-control" id="productCode" asp-for="NewProduct.SMaSanPham" />
+                    </div>
+                    <div class="form-group">
+                        <label for="productName">Tên sản phẩm</label>
+                        <input type="text" class="form-control" id="productName" asp-for="NewProduct.STenSanPham" />
+                    </div>
+                    <div class="form-group">
+                        <label for="categoryCode">Đơn vị tính</label>
+                        <input type="text" class="form-control" id="categoryCode" asp-for="NewProduct.SDonVi" />
+                    </div>
+                    <div class="form-group">
+                        <label for="unit">Giá</label>
+                        <input type="number" class="form-control" id="unit" asp-for="NewProduct.FGia" />
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Hạn sử dụng</label>
+                        <input type="date" class="form-control" id="price" asp-for="NewProduct.DHanSuDung" />
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Số lượng tồn</label>
+                        <input type="number" class="form-control" id="quantity" asp-for="NewProduct.ISoLuongTon" />
+                    </div>
+                    <div class="form-group">
+                        <label for="productType">Mã loại sản phẩm</label>
+                        <input type="text" class="form-control" id="productType" asp-for="NewProduct.SMaLoaiSanPham" />
+                    </div>
+                    <div class="form-group">
+                        <label for="supplier">Mã nhà cung cấp</label>
+                        <input type="text" class="form-control" id="supplier" asp-for="NewProduct.SMaNhaCungCap" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

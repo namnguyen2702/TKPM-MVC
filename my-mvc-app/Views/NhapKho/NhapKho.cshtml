@@ -1,0 +1,26 @@
+@{
+    ViewData["Title"] = "Nhập Kho";
+}
+
+<h1>Nhập Kho</h1>
+
+<form method="post" asp-action="NhapKho">
+    <div class="form-group">
+        <label for="productId">Mã sản phẩm</label>
+        <input type="text" class="form-control" id="productId" name="productId" required />
+    </div>
+    <div class="form-group">
+        <label for="quantity">Số lượng nhập</label>
+        <input type="number" class="form-control" id="quantity" name="quantity" required />
+    </div>
+    <div class="form-group">
+        <label for="price">Giá nhập</label>
+        <input type="number" step="0.01" class="form-control" id="price" name="price" required />
+    </div>
+    <div class="form-group">
+        <label for="supplierId">Mã nhà cung cấp</label>
+        <input type="text" class="form-control" id="supplierId" name="supplierId" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Nhập Kho</button>
+    <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+</form>

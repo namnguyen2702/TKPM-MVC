@@ -1,0 +1,89 @@
+﻿@model List<my_mvc_app.ViewModels.SanPhamChonViewModel>
+@{
+    ViewData["Title"] = "Bán hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Bán hàng</h2>
+    <!--khách hàng-->
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label>Số điện thoại khách hàng:</label>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="0352477474">
+                <button class="btn btn-dark">Tìm</button>
+            </div>
+            <label>Tên khách hàng:</label>
+            <input type="text" class="form-control" placeholder="Nguyễn Văn Nam">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label>Nhập tên sản phẩm:</label>
+            <div class="input-group">
+                <input type="text" id="searchKeyword" class="form-control" placeholder="Tìm sản phẩm...">
+                <button id="btnSearch" class="btn btn-dark">Tìm</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="productResultArea"></div>
+
+    <h4 class="mt-4">Hóa đơn tạm</h4>
+    <form id="invoiceForm" method="post" asp-controller="Sale" >
+        <div id="hoaDonArea">
+            @{
+                Html.RenderPartial("_HoaDonTamPartial", new List<my_mvc_app.ViewModels.SanPhamChonViewModel>());
+            }
+        </div>
+    </form>
+
+    <div class="mt-3">
+        <div class="mb-3">
+            <label><strong>Hình thức thanh toán:</strong></label>
+            <div class="btn-group" role="group" aria-label="Chọn hình thức thanh toán">
+                <input type="radio" class="btn-check" name="paymentMethod" id="tienMat" value="Tiền mặt" autocomplete="off" checked>
+                <label class="btn btn-outline-success" for="tienMat">Tiền mặt</label>
+
+                <input type="radio" class="btn-check" name="paymentMethod" id="chuyenKhoan" value="Chuyển khoản" autocomplete="off">
+                <label class="btn btn-outline-primary" for="chuyenKhoan">Chuyển khoản</label>
+            </div>
+            <button type="button" class="btn btn-dark" onclick="xacNhanThanhToan()">Xác nhận đã thanh toán</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $("#btnSearch").click(function () {
+            let keyword = $("#searchKeyword").val();
+            $.get("/Sale/SearchProduct?keyword=" + keyword, function (data) {
+                $("#productResultArea").html(data);
+            });
+        });
+
+        function addToInvoice(maSanPham, soLuong) {
+            $.post("/Sale/AddToInvoice", { maSanPham, soLuong }, function (data) {
+                $("#hoaDonArea").html(data);
+            });
+        }
+        function xacNhanThanhToan() {
+            // Lấy hình thức đã chọn
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+            const result = confirm("Thanh toán thành công!\n\nHình thức: " + paymentMethod + "\n\nBạn có muốn in hóa đơn không?");
+            if (result) {
+                // Gọi trang in
+                window.open('/Sale/PrintInvoice', '_blank');
+            }
+    }
+
+        function xoaSanPham(maSanPham) {
+            $.post("/Sale/RemoveFromInvoice", { maSanPham }, function (data) {
+                $("#hoaDonArea").html(data);
+            });
+        }
+    </script>
+}

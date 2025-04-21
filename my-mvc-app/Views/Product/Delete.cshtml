@@ -1,0 +1,30 @@
+@model my_mvc_app.Models.TblSanPham
+
+@{
+    ViewData["Title"] = "Delete Product";
+}
+
+<h1>Delete Product</h1>
+
+<div>
+    <h4>Bạn có chắc chắn muốn xóa sản phẩm này không?</h4>
+    <dl class="row">
+        <dt class="col-sm-2">Mã sản phẩm</dt>
+        <dd class="col-sm-10">@Model.SMaSanPham</dd>
+
+        <dt class="col-sm-2">Tên sản phẩm</dt>
+        <dd class="col-sm-10">@Model.STenSanPham</dd>
+
+        <dt class="col-sm-2">Đơn vị tính</dt>
+        <dd class="col-sm-10">@Model.SDonVi</dd>
+
+        <dt class="col-sm-2">Giá</dt>
+        <dd class="col-sm-10">@Model.FGia</dd>
+    </dl>
+
+    <form method="post" asp-action="Delete">
+        <input type="hidden" asp-for="SMaSanPham" />
+        <button type="submit"  class="btn btn-danger">Delete</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
